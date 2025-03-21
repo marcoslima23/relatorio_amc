@@ -1,0 +1,81 @@
+\documentclass[twocolumn]{article}
+ 
+% ------------------------------------
+%               PACOTES
+% ------------------------------------
+\usepackage{tikz}
+\usepackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{1cm} % Unidade horizontal
+\setlength{\TPVertModule}{1cm}  % Unidade vertical
+
+\usepackage{hyperref} 
+\usepackage{cmap}				% Mapear caracteres especiais no PDF
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		
+\usepackage{multicol}
+\usepackage{color}				% Controle das cores.
+
+\usepackage{overpic}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{amsmath}            % Permite o uso de comandos matemáticos.
+\usepackage{array}
+\usepackage{appendix}
+\usepackage{float}
+\usepackage[brazil]{babel}
+\usepackage[alf]{abntex2cite}
+\usepackage{longtable}
+\usepackage{supertabular}
+\usepackage{caption}
+\usepackage{tocloft}
+\usepackage{ragged2e}
+\floatstyle{plaintop}
+\newfloat{quadro}{!ht}{lop}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\floatname{quadro}{Quadro}
+\usepackage[authoryear]{natbib} % Para citações do tipo autor-ano
+\usepackage{hyperref}
+\hypersetup{
+    pdfborder={0 0 0}, % Remove as bordas
+    colorlinks=false % Mantém o estilo padrão, sem bordas coloridas ou links coloridos
+}
+
+% Configurar a lista de quadros
+\newcommand{\listofquadros}{
+  \listof{quadro}{Lista de Quadros}
+}
+
+%---------------------------------------
+%               CAPA
+%---------------------------------------
+\pagestyle{empty}
+\begin{document}
+\onecolumn 
+\AddToShipoutPictureBG*{\put(-12cm,6cm){\includegraphics[width=49 cm,height=22 cm]{Imagens/13.jpg}}}
+
+
+\input{corpo/capa3.tex}
+\newpage
+
+
+%------------------------------------
+%               SUMÁRIO
+%--------------------------------------
+\tableofcontents
+\thispagestyle{empty} 
+\pagenumbering{arabic}
+
+\pagestyle{plain}
+%------------------------------------------
+%           Corpo do Documento
+% ----------------------------------------
+\twocolumn 
+\setcounter{page}{1}
+\input{corpo/AMBIENTES} 
+% \bibliographystyle{apalike}
+\nocite{newbold2013statistics}
+\bibliography{corpo/referencias}
+
+\end{document}
