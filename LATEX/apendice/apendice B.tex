@@ -1,0 +1,60 @@
+param platform := 4;
+param N := 8;
+param pi := 3.141592653589793;
+
+param H1 := 240;
+param H2 := 540;
+param Ht := 1000;
+param Dt := 20;
+
+param Radius := 505;
+param Rc := 85;
+
+param m0 := 776.5;
+
+param L {i in 1..N} :=
+    if i <= N/2 then 180
+    else 200;
+
+param In {i in 1..N} :=
+    if i <= N/2 then (pi/4)+(pi/2)*(i-1)
+    else 0+(pi/2)*(i-4);
+param Raio {i in 1..N} :=
+    if i <= N/2 then 418.4
+    else 295.9;
+
+
+var o {1..platform} >= 0, <= pi/2, default 0;
+#subject to makeZERO :
+#    o[1] = 0;
+
+var D {i in 1..N,h in 1..N,j in 1..platform,k in 1..platform};
+
+subject to Define_D12 {i in 1..N, h in 1..N}:
+    D[i,h,1,2] = (L[i]/2 + H2 + Dt) - (-L[h]/2 + H2);
+
+subject to Define_D13 {i in 1..N, h in 1..N}:
+    D[i,h,1,3] = (L[i]/2 + H2 + Dt) - (L[h]/2 + H1 + Dt);
+
+subject to Define_D14 {i in 1..N, h in 1..N}:
+    D[i,h,1,4] = (L[i]/2 + H2 + Dt) - (-L[h]/2 + H1);
+
+subject to Define_D23 {i in 1..N, h in 1..N}:
+    D[i,h,2,3] = (-L[i]/2 + H2) - (L[h]/2 + H1 + Dt);
+
+subject to Define_D24 {i in 1..N, h in 1..N}:
+    D[i,h,2,4] = (-L[i]/2 + H2) - (-L[h]/2 + H1);
+
+subject to Define_D34 {i in 1..N, h in 1..N}:
+    D[i,h,3,4] = (L[i]/2 + H1 + Dt) - (-L[h]/2 + H1);
+
+# Função objetivo
+maximize F:
+    sum {j in 1..platform-1, l in j+1..platform, i in 1..N-1, h in i+1..N} 
+        sqrt(
+            (Raio[i]*cos(o[j] + In[i]) - Raio[h]*cos(o[l] + In[h]))^2
+            + (Raio[i]*sin(o[j] + In[i]) - Raio[h]*sin(o[l] + In[h]))^2
+            + (D[i,h,j,l])^2
+        );
+
+

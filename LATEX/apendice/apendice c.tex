@@ -1,0 +1,11 @@
+model "C:\Users\Marcos\Downloads\ampl.mod"
+option solver ipopt; 
+solve;
+display o,F;
+for {j in 1..platform, i in 1..N} {
+    printf "j=%d; i=%d\n %10.2f, %10.3f\n",
+        j, i, 
+        Raio[i]*cos(o[j] + In[i]), 
+        Raio[i]*sin(o[j] + In[i]);
+}
+    
